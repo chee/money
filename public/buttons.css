@@ -1,0 +1,57 @@
+body {
+	background: #3399cc;
+	color: white;
+}
+
+div#app {
+	width: 10em;
+	text-align: center;
+	margin: auto;
+	font-size: 2em;
+}
+
+.info-button {
+	border-radius: 100%;
+	border: 1px solid #336699;
+	background: white;
+	font-size: .5em;
+	padding: .51em;
+	display: inline-block;
+}
+
+.info-button.fuck {
+	margin-top: 2em;
+	position: absolute;
+	top: 0;
+	left: 1em;
+	font-size: .2em;
+	opacity: .5555;
+}
+
+.info-button.go {
+	margin-left: 10px;
+}
+
+.info-further {
+	font-size: .5em;
+	opacity: 0.72;
+	margin-top: 4em;
+}
+
+p {
+	line-height: .74;
+}
+
+.info-number {
+	font-size: 2em;
+	margin: none;
+	padding: none;
+}
+
+.info-number.good {
+	color: #23fc56;
+}
+
+.info-number.bad {
+	color: #ff2a50;
+}
