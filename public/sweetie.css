@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	background: #3399cc;
 	color: white;
@@ -10,12 +14,22 @@ div#app {
 	font-size: 2em;
 }
 
+input {
+	line-height: 40px;
+	padding: 3px;
+}
+
+button {
+	width: 50px;
+	height: 50px;
+	padding: 10px;
+}
+
 .info-button {
 	border-radius: 100%;
 	border: 1px solid #336699;
 	background: white;
 	font-size: .5em;
-	padding: .51em;
 	display: inline-block;
 }
 
