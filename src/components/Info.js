@@ -1,10 +1,11 @@
 const h = require('inferno-hyperscript')
 
 const round = (value, decimals) => (
-  Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
+  Number(Math.round(value + 'e' + decimals) + 'e-' + decimals).toFixed(decimals)
 )
 
 module.exports = ({money, restart, change, spending, spend, spent, budget, day}) => {
+	const saved = budget.slice(0, day).reduce((p, c) => p + c, 0)
 	return (
 		h('.info', null, [
 			h('p.info-lead', 'you have'),
@@ -19,7 +20,8 @@ module.exports = ({money, restart, change, spending, spend, spent, budget, day})
 			h('button.info-button.fuck', {onClick: restart}, '🚮'),
 			h('div.info-further', null, [
 				h('p', 'total spent: ' + round(spent, 2)),
-				h('p', 'remaining in total: ' + round(money - spent, 2))
+				h('p', 'remaining in total: ' + round(money - spent, 2)),
+				h('p', 'saved so far: ' + round(saved, 2))
 			])
 		])
 	)

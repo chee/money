@@ -97,7 +97,7 @@ class Application extends Component {
 		if (step == DAYS) {
 			this.setState({
 				step: INFO,
-				budget: [...Array(days)].map(() => (money - spent) / days),
+				budget: [...Array(+days)].map(() => (money - spent) / days),
 				day: ((new Date).startDay() - start) / day | 0
 			}, () => {
 				localStorage.setItem(BUDGET, JSON.stringify(this.state.budget))
