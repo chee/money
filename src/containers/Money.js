@@ -95,7 +95,7 @@ class Application extends Component {
 			localStorage.setItem(STEP, DAYS)
 		}
 		if (step == DAYS) {
-			const budget = [...Array(+days)].fill((money - spent) / days)
+			const budget = Array.apply(null, {length: days}).map(() => (money - spent) / days)
 			this.setState({
 				step: INFO,
 				budget,
