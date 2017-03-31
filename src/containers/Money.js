@@ -40,7 +40,7 @@ class Application extends Component {
 		const budget = localStorage.getItem(BUDGET)
 		this.state.budget = budget
 			? JSON.parse(budget)
-			: [...Array(+days)].map(() => (money - spent) / days)
+			: [...Array(+days)].map(() => (+money - +spent) / +days)
 		localStorage.setItem(BUDGET, JSON.stringify(this.state.budget))
 		this.state.day = ((new Date).startDay() - start) / day | 0
 		const functions = ['restart', 'change', 'submit', 'spend']
@@ -95,29 +95,29 @@ class Application extends Component {
 			localStorage.setItem(STEP, DAYS)
 		}
 		if (step == DAYS) {
+			const budget = [...Array(+days)].map(() => (money - spent) / days)
 			this.setState({
 				step: INFO,
-				budget: [...Array(+days)].map(() => (money - spent) / days),
+				budget,
 				day: ((new Date).startDay() - start) / day | 0
-			}, () => {
-				localStorage.setItem(BUDGET, JSON.stringify(this.state.budget))
 			})
+			localStorage.setItem(BUDGET, JSON.stringify(budget))
 			localStorage.setItem(STEP, INFO)
 		}
 	}
 
 	spend() {
-		const {day, budget, spending, spent} = this.state
-		const newBudget = [...budget]
-		newBudget[day] -= spending
+		const budget = [...this.state.budget]
+		const {day, spending} = this.state
+		const spent = +this.state.spent + +spending
+		budget[day] -= spending
 		this.setState({
 			spending: null,
-			budget: newBudget,
-			spent: +spent + +spending
-		}, () => {
-			localStorage.setItem(BUDGET, JSON.stringify(newBudget))
-			localStorage.setItem(SPENT, this.state.spent)
+			budget: budget,
+			spent: spent
 		})
+		localStorage.setItem(BUDGET, JSON.stringify(budget))
+		localStorage.setItem(SPENT, spent)
 	}
 
 	render() {
