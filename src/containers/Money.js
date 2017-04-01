@@ -25,22 +25,28 @@ const questions = {
 
 const day = 60 * 60 * 24 * 1000
 
+function getDay(start) {
+	return ((new Date).getTime() - start) / day | 0
+}
+
 class Application extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			start: localStorage.getItem(START) || (new Date).startDay(),
+			start: localStorage.getItem(START) || (new Date).startDay().getTime(),
 			money: localStorage.getItem(MONEY),
 			days: localStorage.getItem(DAYS),
 			step: localStorage.getItem(STEP) || MONEY,
 			spending: null,
 			spent: localStorage.getItem(SPENT) || 0,
 		}
+		this.state.today = getDay(this.state.start)
+		localStorage.setItem(START, this.state.start)
 		const {days, money, spent, start} = this.state
 		const budget = localStorage.getItem(BUDGET)
 		this.state.budget = budget
 			? JSON.parse(budget)
-			: [...Array(+days)].map(() => (+money - +spent) / +days)
+			: Array.apply(null, {length: days}).map(() => (+money - +spent) / +days)
 		localStorage.setItem(BUDGET, JSON.stringify(this.state.budget))
 		this.state.day = ((new Date).startDay() - start) / day | 0
 		const functions = ['restart', 'change', 'submit', 'spend']
@@ -48,11 +54,11 @@ class Application extends Component {
 	}
 
 	componentDidUpdate() {
-		const {start, day} = this.state
-		const newDay = ((new Date).startDay() - start) / day | 0
-		if (newDay == day) return
+		const {start, today} = this.state
+		const newDay = getDay(start)
+		if (newDay == today) return
 		this.setState({
-			day: newDay
+			today: newDay
 		})
 	}
 
@@ -99,7 +105,7 @@ class Application extends Component {
 			this.setState({
 				step: INFO,
 				budget,
-				day: ((new Date).startDay() - start) / day | 0
+				today: ((new Date).startDay() - start) / day | 0
 			})
 			localStorage.setItem(BUDGET, JSON.stringify(budget))
 			localStorage.setItem(STEP, INFO)
@@ -108,9 +114,9 @@ class Application extends Component {
 
 	spend() {
 		const budget = [...this.state.budget]
-		const {day, spending} = this.state
+		const {today, spending} = this.state
 		const spent = +this.state.spent + +spending
-		budget[day] -= spending
+		budget[today] -= spending
 		this.setState({
 			spending: null,
 			budget: budget,

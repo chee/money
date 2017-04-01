@@ -4,14 +4,14 @@ const round = (value, decimals) => (
   Number(Math.round(value + 'e' + decimals) + 'e-' + decimals).toFixed(decimals)
 )
 
-module.exports = ({money, restart, change, spending, spend, spent, budget, day}) => {
-	const saved = budget.slice(0, day).reduce((p, c) => p + c, 0)
+module.exports = ({money, restart, change, spending, spend, spent, budget, today}) => {
+	const saved = budget.slice(0, today).reduce((p, c) => p + c, 0)
 	return (
 		h('.info', null, [
 			h('p.info-lead', 'you have'),
 			h('p.info-number', {
-				className: budget[day] <= 0 && 'bad'
-			}, round(budget[day], 2)),
+				className: budget[today] <= 0 && 'bad'
+			}, round(budget[today], 2)),
 			h('p.info-tail', 'that you havent spent'),
 			h('div', null, [
 				h('input.info-input', {value: spending, type: 'number', onInput: change}),
